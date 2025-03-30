@@ -7,11 +7,12 @@ defineProps<{
 
 const colorMode = useColorMode()
 const appConfig = useAppConfig()
+const {user, userRole, logoutUser } = useFirebaseAuth()
 
 const colors = ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
 const neutrals = ['slate', 'gray', 'zinc', 'neutral', 'stone']
 
-const user = ref({
+const userData = ref({
   name: 'Admin',
   avatar: {
     src: 'https://github.com/benjamincanac.png',
@@ -21,15 +22,18 @@ const user = ref({
 
 const items = computed<DropdownMenuItem[][]>(() => ([[{
   type: 'label',
-  label: user.value.name,
-  avatar: user.value.avatar
+  label: user.value?.email ?? "user",
+  avatar: userData.value.avatar
 }], [{
   label: 'Profile',
   icon: 'i-lucide-user',
   to: '/userProfile'
 }], [{
   label: 'Log out',
-  icon: 'i-lucide-log-out'
+  icon: 'i-lucide-log-out',
+  onSelect: () => {
+      logoutUser()
+    }
 }]]))
 </script>
 
@@ -42,7 +46,7 @@ const items = computed<DropdownMenuItem[][]>(() => ([[{
     <UButton
       v-bind="{
         ...user,
-        label: collapsed ? undefined : user?.name,
+        label: collapsed ? undefined : user?.email || 'Admin',
         trailingIcon: collapsed ? undefined : 'i-lucide-chevrons-up-down'
       }"
       color="neutral"
