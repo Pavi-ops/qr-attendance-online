@@ -30,7 +30,15 @@ const links = [[{
       open.value = false
     }
   }]
-}]]
+}, {
+  label: 'Attendance',
+  icon: 'i-lucide-calendar-check',
+  to: '/manualAttendance',
+  onSelect: () => {
+    open.value = false
+  }
+}
+]]
 
 const groups = computed(() => [{
   id: 'links',

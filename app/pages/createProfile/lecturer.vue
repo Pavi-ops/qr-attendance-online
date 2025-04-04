@@ -9,7 +9,9 @@ const profileSchema = z.object({
   email: z.string().email('Invalid email'),
   username: z.string().min(2, 'Too short'),
   avatar: z.string().optional(),
-  bio: z.string().optional()
+  bio: z.string().optional(),
+  password: z.string().min(8, 'Too short'),
+  confirmPassword: z.string().min(8, 'Too short')
 })
 
 type ProfileSchema = z.output<typeof profileSchema>
@@ -154,5 +156,48 @@ function onFileClick() {
         />
       </UFormField>
     </UPageCard>
+  </UForm>
+  <UForm
+    id="password"
+    :schema="profileSchema"
+    :state="profile"
+    @submit="onSubmit"
+  >
+    <UPageCard
+      title="Create password"
+      description="Create a password to protect your account. This will be used to sign in."
+      variant="naked"
+      orientation="horizontal"
+      class="mb-4"
+    ></UPageCard>
+    <UPageCard variant="subtle">
+      <UFormField
+        name="password"
+        label="Password"
+        description="Must be at least 8 characters long."
+        required
+        class="flex max-sm:flex-col justify-between items-start gap-4"
+      >
+        <UInput
+          v-model="profile.password"
+          type="password"
+          autocomplete="off"
+        />
+      </UFormField>
+      <USeparator />
+      <UFormField
+        name="confirmPassword"
+        label="Confirm password"
+        description="Please re-enter your password."
+        required
+        class="flex max-sm:flex-col justify-between items-start gap-4"
+      >
+        <UInput
+          v-model="profile.confirmPassword"
+          type="password"
+          autocomplete="off"
+        />
+      </UFormField>
+      </UPageCard>
   </UForm>
 </template>

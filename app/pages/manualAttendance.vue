@@ -32,7 +32,7 @@
 
 <script>
 import Swal from 'sweetalert2';
-
+const toast = useToast()
 export default {
     data() {
         return {
@@ -50,15 +50,11 @@ export default {
             // Handle PIN submission; replace with your logic/API call/etc.
             const enteredPin = this.pin.join('');
             console.log('Submitted PIN:', enteredPin);
-            Swal.fire({
-                icon: 'success',
+            toast.add({
                 title: 'PIN Submitted',
-                text: 'Your PIN has been successfully submitted!',
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
+                description: 'Your PIN has been successfully submitted!',
+                icon: 'i-lucide-check',
+                color: 'success'
             });
 
             this.pin = Array(5).fill('');
