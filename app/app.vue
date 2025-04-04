@@ -1,7 +1,22 @@
 <script setup lang="ts">
-const colorMode = useColorMode()
+const { user, userRole, loading } = useFirebaseAuth()
+const router = useRouter()
 
-const color = computed(() => colorMode.value === 'dark' ? '#111827' : 'white')
+// Redirect to select-user if not logged in
+onMounted(() => {
+  if (!loading.value) {
+    if (!user.value) {
+      router.push('/selectUser');
+    } else {
+      console.log(userRole.value);
+      
+      router.push('/');
+    }  
+  }
+})
+
+const colorMode = useColorMode()
+const color = computed(() => (colorMode.value === 'dark' ? '#111827' : 'white'))
 
 useHead({
   meta: [
@@ -9,16 +24,12 @@ useHead({
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
     { key: 'theme-color', name: 'theme-color', content: color }
   ],
-  link: [
-    { rel: 'icon', href: '/favicon.ico' }
-  ],
-  htmlAttrs: {
-    lang: 'en'
-  }
+  link: [{ rel: 'icon', href: '/favicon.ico' }],
+  htmlAttrs: { lang: 'en' }
 })
 
-const title = 'Nuxt UI Pro - Dashboard template'
-const description = 'Nuxt UI Pro is a collection of premium Vue components built on top of Nuxt UI to create beautiful & responsive Nuxt applications in minutes.'
+const title = 'Online QR-based Attendance'
+const description = ''
 
 useSeoMeta({
   title,
@@ -34,7 +45,6 @@ useSeoMeta({
 <template>
   <UApp>
     <NuxtLoadingIndicator />
-
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
