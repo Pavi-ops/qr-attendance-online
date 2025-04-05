@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { getFirestore, doc, setDoc } from 'firebase/firestore'
 
 const fileRef = ref<HTMLInputElement>()
 
@@ -25,13 +27,42 @@ const profile = reactive<Partial<ProfileSchema>>({
 })
 const toast = useToast()
 async function onSubmit(event: FormSubmitEvent<ProfileSchema>) {
-  toast.add({
-    title: 'Success',
-    description: 'Your settings have been updated.',
-    icon: 'i-lucide-check',
-    color: 'success'
-  })
-  console.log(event.data)
+  try {
+    const auth = getAuth()
+    const db = getFirestore()
+    const { email, password } = event.data
+
+    if (!email || !password) {
+      throw new Error('Email and password are required.')
+    }
+
+    // Create the user
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+    const user = userCredential.user
+
+    // Add user authorization info to Firestore
+    const userDocRef = doc(db, 'users', user.uid)
+    await setDoc(userDocRef, {
+      email: user.email,
+      role: 'student'
+    })
+
+    toast.add({
+      title: 'Success',
+      description: 'Your account has been created successfully.',
+      icon: 'i-lucide-check',
+      color: 'success'
+    })
+    console.log('User created and Firestore updated:', event.data)
+  } catch (error) {
+    toast.add({
+      title: 'Error',
+      description: 'Failed to create user.',
+      icon: 'i-lucide-alert-circle',
+      color: 'error'
+    })
+    console.error('Error creating user:', error)
+  }
 }
 
 function onFileChange(e: Event) {
