@@ -9,6 +9,7 @@
     </template>
 
     <template #body>
+      <UPageCard variant="subtle">
       <div class="flex flex-col gap-4 sm:gap-6 lg:gap-12 w-full lg:max-w-50 mx-auto">
         <NuxtPage />
         <!-- Date Filters -->
@@ -43,7 +44,9 @@
           Export
         </button>
       </div>
+    </UPageCard>
     </template>
+    
   </UDashboardPanel>
 </template>
 
