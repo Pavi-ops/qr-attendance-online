@@ -37,6 +37,13 @@ const links = [[{
   onSelect: () => {
     open.value = false
   }
+}, {
+  label: 'Reports',
+  icon: 'i-lucide-file-text',
+  to: '/reports',
+  onSelect: () => {
+    open.value = false
+  }
 }
 ]]
 
