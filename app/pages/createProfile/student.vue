@@ -34,7 +34,7 @@ async function onSubmit(event: FormSubmitEvent<ProfileSchema>) {
   try {
     const auth = getAuth()
     const db = getFirestore()
-    const { email, password } = event.data
+    const { email, password, name, username } = event.data
 
     if (!email || !password) {
       throw new Error('Email and password are required.')
@@ -47,6 +47,8 @@ async function onSubmit(event: FormSubmitEvent<ProfileSchema>) {
     // Add user authorization info to Firestore
     const userDocRef = doc(db, 'users', user.uid)
     await setDoc(userDocRef, {
+      name: name,
+      username: username,
       email: user.email,
       role: 'student',
       studentId: studentId

@@ -35,11 +35,11 @@ export default function() {
   }
 
   // Admin creates lecturers & students
-  const createUser = async (email: string, password: string, role: string) => {
+  const createUser = async (email: string, password: string, name:string, role: string) => {
     try {
       const userCreds = await createUserWithEmailAndPassword(auth, email, password)
       if (userCreds) {
-        await setDoc(doc(db, "users", userCreds.user.uid), { email, role })
+        await setDoc(doc(db, "users", userCreds.user.uid), { name, email, role })
         return true
       }
     } catch (error) {
