@@ -93,6 +93,14 @@ const links = computed(() => {
         icon: 'i-lucide-calendar-check',
         to: '/qrGenerator',
         onSelect: () => { open.value = false }
+      },
+      {
+        label: 'Reports',
+        icon: 'i-lucide-file-text',
+        to: '/reports',
+        onSelect: () => {
+          open.value = false
+        }
       }
     ]]
   }
