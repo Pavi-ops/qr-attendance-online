@@ -2,6 +2,12 @@
 import type { FormErrorEvent, FormSubmitEvent } from '@nuxt/ui'
 definePageMeta({layout:"login-form"})
 
+import { useRoute, useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const {loginUser} = useFirebaseAuth();
+
 const { form, errors, validate, resetForm } = useForm({
   email: '',
   password: ''
@@ -16,8 +22,13 @@ const toast = useToast()
 
 async function onSubmit(event: FormSubmitEvent<any>) {
   if (validate(validationRules)) {
-    toast.add({ title: 'Success', description: 'The form has been submitted.', color: 'success' })
-    console.log(event.data)
+    const islogged = await loginUser(event.data.email, event.data.password)
+    if (islogged) {
+      toast.add({ title: 'Success', description: 'login success', color: 'success' });
+      router.push('/');
+    } else {
+      toast.add({ title: 'Failed', description: `Login failed`, color: 'error' });
+    }
   }
 }
 

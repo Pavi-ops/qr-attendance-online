@@ -35,6 +35,25 @@ const links = computed(() => {
         ]
       },
       {
+        label: 'User List',
+        icon: 'i-lucide-user-round-plus',
+        to: '/userList/student',
+        defaultOpen: true,
+        children: [
+          {
+            label: 'Student',
+            to: '/userList/student',
+            exact: true,
+            onSelect: () => { open.value = false }
+          },
+          {
+            label: 'Lecturer',
+            to: '/userList/lecturer',
+            onSelect: () => { open.value = false }
+          }
+        ]
+      },
+      {
         label: 'Add Module',
         icon: 'i-lucide-users',
         to: '/module',

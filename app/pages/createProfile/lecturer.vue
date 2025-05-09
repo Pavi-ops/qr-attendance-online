@@ -23,14 +23,14 @@ const toast = useToast()
 async function onSubmit(event: FormSubmitEvent<ProfileSchema>) {
   try {
 
-    const { email, password } = event.data
+    const { email, password, name } = event.data
 
     if (!email || !password) {
       throw new Error('Email and password are required.')
     }
 
     // Create the user
-    const result = await createUser(email, password, "leacture");
+    const result = await createUser(email, password, name, "leacture");
 
     if (result) {
       toast.add({
