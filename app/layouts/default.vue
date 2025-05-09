@@ -1,82 +1,135 @@
 <script setup lang="ts">
 const route = useRoute()
 const toast = useToast()
+const { user, userRole, loading } = useFirebaseAuth()
+console.log(userRole.value);
 
 const open = ref(false)
 
-const links = [[{
-  label: 'Home',
-  icon: 'i-lucide-house',
-  to: '/',
-  onSelect: () => {
-    open.value = false
+const links = computed(() => {
+  if (userRole.value === 'admin') {
+    return [[
+      {
+        label: 'Home',
+        icon: 'i-lucide-house',
+        to: '/',
+        onSelect: () => { open.value = false }
+      },
+      {
+        label: 'Create Profile',
+        icon: 'i-lucide-user-round-plus',
+        to: '/createProfile/student',
+        defaultOpen: true,
+        children: [
+          {
+            label: 'Student',
+            to: '/createProfile/student',
+            exact: true,
+            onSelect: () => { open.value = false }
+          },
+          {
+            label: 'Lecturer',
+            to: '/createProfile/lecturer',
+            onSelect: () => { open.value = false }
+          }
+        ]
+      },
+      {
+        label: 'Add Module',
+        icon: 'i-lucide-users',
+        to: '/module',
+        onSelect: () => { open.value = false }
+      },
+      {
+        label: 'Attendance',
+        icon: 'i-lucide-calendar-check',
+        to: '/attendance',
+        onSelect: () => { open.value = false }
+      }
+    ]]
   }
-}, {
-  label: 'Create Profile',
-  icon: 'i-lucide-user-round-plus',
-  to: '/createProfile/student',
-  defaultOpen: true,
-  children: [{
-    label: 'Student',
-    to: '/createProfile/student',
-    exact: true,
-    onSelect: () => {
-      open.value = false
-    }
-  }, {
-    label: 'Lecturer',
-    to: '/createProfile/lecturer',
-    onSelect: () => {
-      open.value = false
-    }
-  }]
-}, {
-  label: 'Attendance',
-  icon: 'i-lucide-calendar-check',
-  to: '/manualAttendance',
-  onSelect: () => {
-    open.value = false
+
+  if (userRole.value === 'lecturer') {
+    return [[
+      {
+        label: 'Home',
+        icon: 'i-lucide-house',
+        to: '/',
+        onSelect: () => { open.value = false }
+      },
+      {
+        label: 'Add Module',
+        icon: 'i-lucide-users',
+        to: '/module',
+        onSelect: () => { open.value = false }
+      },
+      {
+        label: 'Attendance',
+        icon: 'i-lucide-calendar-check',
+        to: '/attendance',
+        onSelect: () => { open.value = false }
+      }
+    ]]
   }
-}, {
-  label: 'Reports',
+
+  if (userRole.value === 'student') {
+    return [[
+      {
+        label: 'Home',
+        icon: 'i-lucide-house',
+        to: '/',
+        onSelect: () => { open.value = false }
+      },
+      {
+        label: 'Add Manual Attendance',
+        icon: 'i-lucide-users',
+        to: '/manualAttendance',
+        onSelect: () => { open.value = false }
+      }, {
+        label: 'Reports',
   icon: 'i-lucide-file-text',
   to: '/reports',
   onSelect: () => {
     open.value = false
   }
-}
-]]
+      }
+    ]]
+  }
+
+  // Default fallback
+  return [[]]
+})
 
 const groups = computed(() => [{
   id: 'links',
   label: 'Go to',
-  items: links.flat()
+  items: links.value.flat()
 }])
 
-onMounted(async () => {
-  const cookie = useCookie('cookie-consent')
-  if (cookie.value === 'accepted') {
-    return
-  }
+// onMounted(async () => {
+//   const cookie = useCookie('cookie-consent')
+//   if (cookie.value === 'accepted') {
+//     return
+//   }
 
-  toast.add({
-    title: 'We use first-party cookies to enhance your experience on our website.',
-    duration: 0,
-    close: false,
-    actions: [{
-      label: 'Accept',
-      color: 'neutral',
-      variant: 'outline',
-      onClick: () => {
-        cookie.value = 'accepted'
-      }
-    }, {
-      label: 'Opt out',
-      color: 'neutral',
-      variant: 'ghost'
-    }]
-  })
-})
+//   toast.add({
+//     title: 'We use first-party cookies to enhance your experience on our website.',
+//     duration: 0,
+//     close: false,
+//     actions: [{
+//       label: 'Accept',
+//       color: 'neutral',
+//       variant: 'outline',
+//       onClick: () => {
+//         cookie.value = 'accepted'
+//       }
+//     }, {
+//       label: 'Opt out',
+//       color: 'neutral',
+//       variant: 'ghost'
+//     }]
+//   })
+// })
 </script>
 
 <template>
