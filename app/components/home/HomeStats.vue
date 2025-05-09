@@ -106,6 +106,17 @@ const dashboardCard = computed(() => {
           width: 50,
           height: 70
         }
+      },
+      {
+        title: 'Reports',
+        to: 'reports',
+        icon: 'i-lucide-file-text',
+        image: {
+          name: 'images/create-profile.png',
+          alt: 'Generate QR',
+          width: 50,
+          height: 70
+        }
       }
     ]
   }
