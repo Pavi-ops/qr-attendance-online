@@ -63,7 +63,7 @@ const dashboardCard = computed(() => {
 
   if (userRole.value === 'lecturer') {
     return [
-    {
+      {
         title: 'Add Module',
         to: '/module',
         icon: 'i-lucide-copy-plus',
@@ -92,6 +92,17 @@ const dashboardCard = computed(() => {
         image: {
           name: 'images/create-profile.png',
           alt: 'Add Halls',
+          width: 50,
+          height: 70
+        }
+      },
+      {
+        title: 'Generate QR',
+        to: 'qrGenerator',
+        icon: 'i-lucide-warehouse',
+        image: {
+          name: 'images/create-profile.png',
+          alt: 'Generate QR',
           width: 50,
           height: 70
         }

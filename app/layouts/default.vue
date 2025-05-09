@@ -87,6 +87,12 @@ const links = computed(() => {
         icon: 'i-lucide-calendar-check',
         to: '/attendance',
         onSelect: () => { open.value = false }
+      },
+      {
+        label: 'QR Generator',
+        icon: 'i-lucide-calendar-check',
+        to: '/qrGenerator',
+        onSelect: () => { open.value = false }
       }
     ]]
   }
@@ -97,6 +103,12 @@ const links = computed(() => {
         label: 'Home',
         icon: 'i-lucide-house',
         to: '/',
+        onSelect: () => { open.value = false }
+      },
+      {
+        label: 'Mark Attendance',
+        icon: 'i-lucide-users',
+        to: '/qrScanner',
         onSelect: () => { open.value = false }
       },
       {
