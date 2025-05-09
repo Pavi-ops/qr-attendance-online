@@ -35,6 +35,25 @@ const links = computed(() => {
         ]
       },
       {
+        label: 'User List',
+        icon: 'i-lucide-user-round-plus',
+        to: '/userList/student',
+        defaultOpen: true,
+        children: [
+          {
+            label: 'Student',
+            to: '/userList/student',
+            exact: true,
+            onSelect: () => { open.value = false }
+          },
+          {
+            label: 'Lecturer',
+            to: '/userList/lecturer',
+            onSelect: () => { open.value = false }
+          }
+        ]
+      },
+      {
         label: 'Add Module',
         icon: 'i-lucide-users',
         to: '/module',
@@ -68,6 +87,12 @@ const links = computed(() => {
         icon: 'i-lucide-calendar-check',
         to: '/attendance',
         onSelect: () => { open.value = false }
+      },
+      {
+        label: 'QR Generator',
+        icon: 'i-lucide-calendar-check',
+        to: '/qrGenerator',
+        onSelect: () => { open.value = false }
       }
     ]]
   }
@@ -78,6 +103,12 @@ const links = computed(() => {
         label: 'Home',
         icon: 'i-lucide-house',
         to: '/',
+        onSelect: () => { open.value = false }
+      },
+      {
+        label: 'Mark Attendance',
+        icon: 'i-lucide-users',
+        to: '/qrScanner',
         onSelect: () => { open.value = false }
       },
       {
